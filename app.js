@@ -12,19 +12,19 @@ const app = express();
 // Using Middlewares
 app.use(express.json());
 app.use(cookieParser());
-// app.use(
-//     cors(
-//         {
-//             //     origin: process.env.FRONTEND_URL,
-//             //     credentials: true,
-//             //     methods: ["GET", "POST", "PUT", "DELETE"],
-//         }
-//     )
-// );
-
 app.use(
-    cors()
+    cors(
+        {
+            origin: process.env.FRONTEND_URL,
+            credentials: true,
+            methods: ["GET", "POST", "PUT", "DELETE"],
+        }
+    )
 );
+
+// app.use(
+//     cors()
+// );
 app.use(
     express.urlencoded({
         extended: true,
@@ -44,6 +44,10 @@ app.use("/api/v1", other);
 
 export default app;
 
-app.get("/", (req, res) => res.send(`<h1>Server is working. click <a href=${process.env.FRONTEND_URL}>here</a> to visit frontend.</h1>`));
+app.get("/", (req, res) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.send(`<h1>Server is working. click <a href=${process.env.FRONTEND_URL}>here</a> to visit frontend.</h1>`)
+}
+);
 
 app.use(ErrorMiddleware);
