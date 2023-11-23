@@ -13,10 +13,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin:
-      process.env.NODE_ENV === "DEVELOPMENT"
-        ? process.env.FRONTEND_URL_LOCAL
-        : process.env.FRONTEND_URL,
+    origin: [process.env.FRONTEND_URL_LOCAL, process.env.FRONTEND_URL],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
