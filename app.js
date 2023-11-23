@@ -5,28 +5,28 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 
 config({
-    path: "./config/config.env"
-})
+  path: "./config/config.env",
+});
 const app = express();
-
 // Using Middlewares
 app.use(express.json());
 app.use(cookieParser());
 app.use(
-    cors(
-        {
-            origin: process.env.FRONTEND_URL,
-            credentials: true,
-            methods: ["GET", "POST", "PUT", "DELETE"],
-        }
-    )
+  cors({
+    origin:
+      process.env.NODE_ENV === "DEVELOPMENT"
+        ? process.env.FRONTEND_URL_LOCAL
+        : process.env.FRONTEND_URL,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
 );
 
 app.use(
-    express.urlencoded({
-        extended: true,
-    })
-)
+  express.urlencoded({
+    extended: true,
+  })
+);
 // Importing & Using Routes
 
 import course from "./routes/courseRoutes.js";
@@ -42,9 +42,10 @@ app.use("/api/v1", other);
 export default app;
 
 app.get("/", (req, res) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.send(`<h1>Server is working. click <a href=${process.env.FRONTEND_URL}>here</a> to visit frontend.</h1>`)
-}
-);
+  res.header("Access-Control-Allow-Origin", "*");
+  res.send(
+    `<h1>Server is working. click <a href=${process.env.FRONTEND_URL}>here</a> to visit frontend.</h1>`
+  );
+});
 
 app.use(ErrorMiddleware);
