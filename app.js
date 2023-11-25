@@ -41,8 +41,7 @@ export default app;
 app.get("/", (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.send(
-    `<h1>Server is working. click <a href=${process.env.FRONTEND_URL}>here</a> to visit frontend.</h1>`
+    `<h1>Server is working. click <a href=${process.env.NODE_ENV === 'development' ? process.env.FRONTEND_URL_LOCAL : process.env.FRONTEND_URL}>here</a> to visit frontend.</h1>`
   );
 });
-
 app.use(ErrorMiddleware);
